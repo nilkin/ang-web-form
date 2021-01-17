@@ -9,7 +9,8 @@ import { LayoutContainerModule } from 'src/app/Shared/Container/layout-container
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatDatepickerModule,
     MatInputModule,
     MatNativeDateModule,
+    FormsModule,
     ReactiveFormsModule
   ]
 })

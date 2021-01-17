@@ -4,7 +4,8 @@
     </div>
     <div class="layout-holder__content">
         <app-header></app-header>
-        <form [formGroup]="form">
+
+        <form #userPost="ngForm" [formGroup]="form" (ngSubmit)="onSubmit(userPost.value)">
             <div class="layout-holder__content__body">
                 <div class="layout-holder__content__body__form">
                     <div class="layout-holder__content__body__form__head">
@@ -19,84 +20,144 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="input-wrapper m-b-20">
-                                            <label class="input-label">Ad</label>
-                                            <input type="text" class="input-control" formControlName="name" placeholder="Ad ">
-                                            <span class="text-danger " *ngIf="name.invalid && name.touched ">The name is required</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 ">
-                                        <div class="input-wrapper m-b-20 ">
-                                            <label class="input-label ">Soyad</label>
-                                            <input type="text " class="input-control " placeholder="Soyad ">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 ">
-                                        <div class="input-wrapper m-b-20 ">
-                                            <label class="input-label ">Ata adı</label>
-                                            <input type="text " class="input-control " placeholder="Ata adı ">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 ">
-                                        <div class="input-wrapper m-b-20 ">
-                                            <label class="input-label ">Doğum tarixi</label>
-                                            <input type="text " class="input-control " placeholder="Doğum tarixi ">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 ">
-                                        <div class="input-wrapper m-b-20 ">
-                                            <label class="input-label ">Yaşadığı ünvan</label>
-                                            <input type="text " class="input-control " placeholder="Yaşadığı ünvan ">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 ">
-                                        <div class="input-wrapper m-b-20 ">
-                                            <label class="input-label ">Əlaqə vasitəsi</label>
-                                            <input type="text " class="input-control " placeholder="Əlaqə vasitəsi ">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 ">
-                                        <div class="input-wrapper m-b-20 ">
-                                            <label class="input-label ">FİN nömrə və ya hərbi biletin nömrəsi</label>
-                                            <input type="text " class="input-control " placeholder="Nömrəni qeyd ediniz ">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 ">
-                                        <div class="input-wrapper has-icon m-b-20 ">
-                                            <label class="input-label ">Şəhid olduğu rayon</label>
-                                            <div class="input-wrapper ">
-                                                <select class="input-control ">
-                                                    <option selected="selected " disabled="disabled ">Seçiniz</option>
-                                                    <option *ngFor='let city of towns.regions' value="{{city.id}} ">{{city.name}}</option>                                  
-                                                </select>
-                                                <span class="input-icon icon-chevron-down "></span>
+                                            <label for="name" class="input-label">Ad</label>
+                                            <input ngModel type="text" formControlName="name" class="input-control" placeholder="Ad">
+                                            <div class="text-danger" *ngIf="name.hasError('required') && name.touched">
+                                                <div>Ad daxil edin !</div>
+                                            </div>
+                                            <div class="text-danger" *ngIf="name.hasError('maxlength')">
+                                                <div>Ad ən çox 50 xarakter olmalıdır !</div>
+                                            </div>
+                                            <div class="text-danger" *ngIf="name.hasError('minlength')">
+                                                <div>Ad ən az 2 xarakter olmalıdır !</div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 ">
-                                        <div class="input-wrapper m-b-20 ">
-                                            <label class="input-label ">Şəhid olduğu tarix</label>
-                                            <mat-form-field appearance="fill ">
-                                                <mat-label class="input-label ">DD/MM/YYYY</mat-label>
-                                                <input class="input-control " placeholder="Şəhid olduğu tarix " matInput [matDatepicker]="picker ">
-                                                <mat-datepicker-toggle matSuffix [for]="picker "></mat-datepicker-toggle>
+                                    <div class="col-lg-6">
+                                        <div class="input-wrapper m-b-20">
+                                            <label for="surname" class="input-label">Soyad</label>
+                                            <input ngModel type="text" formControlName="surname" class="input-control" placeholder="Soyad">
+                                            <div class="text-danger" *ngIf="surname.hasError('required') && surname.touched">
+                                                <div>Soyad daxil edin</div>
+                                            </div>
+                                            <div class="text-danger" *ngIf="surname.hasError('maxlength')">
+                                                <div>Soyad ən çox 50 xarakter olmalıdır !</div>
+                                            </div>
+                                            <div class="text-danger" *ngIf="surname.hasError('minlength')">
+                                                <div>Soyad ən az 2 xarakter olmalıdır !</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="input-wrapper m-b-20">
+                                            <label for="fathername" class="input-label">Ata adı</label>
+                                            <input ngModel type="text" formControlName="fathername" class="input-control" placeholder="Ata adı">
+                                            <div class="text-danger" *ngIf="fathername.hasError('required') && fathername.touched">
+                                                <div>Ad daxil edin</div>
+                                            </div>
+                                            <div class="text-danger" *ngIf="fathername.hasError('maxlength')">
+                                                <div>Ad ən çox 50 xarakter olmalıdır !</div>
+                                            </div>
+                                            <div class="text-danger" *ngIf="fathername.hasError('minlength')">
+                                                <div>Ad ən az 2 xarakter olmalıdır !</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="birthdate" class="input-label">Doğum tarixi</label>
+                                        <div class="input-wrapper m-b-20">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label class="input-label">DD/MM/YYYY</mat-label>
+                                                <input ngModel class="input-control" formControlName="birthdate" placeholder="Doğum tarixi" matInput [matDatepicker]="picker">
+                                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                 <mat-datepicker #picker></mat-datepicker>
                                             </mat-form-field>
                                         </div>
+                                        <div class="text-danger" *ngIf="birthdate.hasError('required') && birthdate.touched">
+                                            <div>Doğum tarixini doğru daxil edin</div>
+                                        </div>
                                     </div>
-                                    <div class="col-lg-6 ">
+                                    <div class="col-lg-6">
+                                        <div class="input-wrapper m-b-20">
+                                            <label for="familyAddress" class="input-label">Yaşadığı ünvan</label>
+                                            <input ngModel type="text" formControlName="familyAddress" class="input-control" placeholder="Yaşadığı ünvan">
+                                            <div class="text-danger" *ngIf="familyAddress.hasError('required') && familyAddress.touched">
+                                                <div>Ünvan tələb olunur</div>
+                                            </div>
+                                            <div class="text-danger" *ngIf="familyAddress.hasError('maxlength')">
+                                                <div>Ünvan ən çox 250 simvol olmalıdır</div>
+                                            </div>
+                                            <div class="text-danger" *ngIf="familyAddress.hasError('minlength')">
+                                                <div>Ünvan minimum 2 simvol olmalıdır</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="input-wrapper m-b-20">
+                                            <label for="contactInfo" class="input-label">Əlaqə vasitəsi</label>
+                                            <input ngModel type="text" formControlName="contactInfo" class="input-control" placeholder="Əlaqə vasitəsi">
+                                            <div class="text-danger" *ngIf="contactInfo.hasError('required') && contactInfo.touched">
+                                                <div>Əlaqə telefonu tələb olunur</div>
+                                            </div>
+                                            <div class="text-danger" *ngIf="contactInfo.hasError('maxlength')">
+                                                <div>Əlaqə telefonu maksimum 250 simvol olmalıdır</div>
+                                            </div>
+                                            <div class="text-danger" *ngIf="contactInfo.hasError('minlength')">
+                                                <div>Əlaqə Telefonu minimum 1 simvol olmalıdır</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="input-wrapper m-b-20">
+                                            <label for="fin" class="input-label">FİN nömrə və ya hərbi biletin nömrəsi</label>
+                                            <input ngModel type="text" formControlName="fin" class="input-control" placeholder="Nömrəni qeyd ediniz">
+                                            <div class="text-danger" *ngIf="fin.hasError('maxlength')">
+                                                <div>Fin kod ən çox 7 simvol olmalıdır !</div>
+                                            </div>
+                                            <div class="text-danger" *ngIf="fin.hasError('minlength')">
+                                                <div>Fin kod ən az 7 simvol olmalıdır !</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="input-wrapper has-icon m-b-20">
+                                            <label for="regionId" class="input-label">Şəhid olduğu rayon</label>
+                                            <div class="input-wrapper">
+                                                <select class="input-control">
+                                                    <option [ngValue]="null" selected="selected"  disabled="disabled">Seçiniz</option>
+                                                    <option *ngFor='let city of towns["regions"]' [ngValue]="city.id">{{city.name}}</option>
+                                                </select>
+                                                <span class="input-icon icon-chevron-down"></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="birthdate" class="input-label">Şəhid olduğu tarix</label>
+                                        <div class="input-wrapper m-b-20">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label class="input-label">DD/MM/YYYY</mat-label>
+                                                <input ngModel class="input-control" formControlName="dateOfMartyrdomOrVeteran" placeholder="Şəhid olduğu tarix" matInput [matDatepicker]="picker3">
+                                                <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker3></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="text-danger" *ngIf="dateOfMartyrdomOrVeteran.hasError('required') && dateOfMartyrdomOrVeteran.touched">
+                                            <div>Şəhidlik tarixi tələb olunur</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
                                         <div class="input-wrapper m-b-20 ">
-                                            <label for=" " class="input-label ">Şəxsiyyət vəsiqəsinin və ya hərbi biletin
-                                                şəkli</label>
-                                            <div class="fileupload ">
-                                                <span class="fileupload-placeholder ">Fayl</span>
-                                                <label for="file " class="fileupload-button btn btn-small btn-primary ">Yüklə<input
-                                                        id="file " type="file "></label>
+                                            <label for="" class="input-label">Şəxsiyyət vəsiqəsinin və ya hərbi biletin şəkli</label>
+                                            <div class="fileupload">
+                                                <span class="fileupload-placeholder">Fayl</span>
+                                                <label for="file" class="fileupload-button btn btn-small btn-primary">Yüklə
+                                                <input  id="file" type="file"></label>
                                             </div>
-                                            <div class="fileupload-list ">
-                                                <div class="fileupload-file ">
-                                                    <span class="fileupload-file__remove icon-times "></span>
-                                                    <span class="fileupload-file__name ">photo</span>
+                                            <div class="fileupload-list">
+                                                <div class="fileupload-file">
+                                                    <span class="fileupload-file__remove icon-times"></span>
+                                                    <span class="fileupload-file__name">photo</span>
                                                 </div>
 
                                             </div>
@@ -105,109 +166,157 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="layout-holder__content__body__form__holder__section ">
-                            <h2 class="layout-holder__content__body__form__holder__section__title ">Şəhidin dövlət tərəfindən təltif, orden, medal və ya fəxri ad alıbsa aldığı tarix</h2>
-                            <div class="layout-holder__content__body__form__holder__section__area ">
-                                <div class="layout-holder__content__body__form__holder__section__area__block ">
-                                    <div class="layout-holder__content__body__form__holder__section__area__block__list ">
-                                        <div class="layout-holder__content__body__form__holder__section__area__block__list__item ">
-                                            <div class="layout-holder__content__body__form__holder__section__area__block__list__item__heading ">
-                                                <h4 class="layout-holder__content__body__form__holder__section__area__block__list__item__heading__title ">
+                        <div class="layout-holder__content__body__form__holder__section">
+                            <h2 class="layout-holder__content__body__form__holder__section__title">Şəhidin dövlət tərəfindən təltif, orden, medal və ya fəxri ad alıbsa aldığı tarix</h2>
+                            <div class="layout-holder__content__body__form__holder__section__area">
+                                <div class="layout-holder__content__body__form__holder__section__area__block">
+                                    <div class="layout-holder__content__body__form__holder__section__area__block__list">
+                                        <div class="layout-holder__content__body__form__holder__section__area__block__list__item">
+                                            <div class="layout-holder__content__body__form__holder__section__area__block__list__item__heading">
+                                                <h4 class="layout-holder__content__body__form__holder__section__area__block__list__item__heading__title">
                                                     #1</h4>
-                                                <span class="layout-holder__content__body__form__holder__section__area__block__list__item__heading__remove icon-times "></span>
+                                                <span class="layout-holder__content__body__form__holder__section__area__block__list__item__heading__remove icon-times"></span>
                                             </div>
-                                            <div class="row ">
-                                                <div class="col-lg-8 ">
-                                                    <div class="input-wrapper m-b-20 ">
-                                                        <label class="input-label ">Fəxri adın təsviri</label>
-                                                        <input type="text " class="input-control " placeholder="Fəxri adın təsviri ">
+                                            <div class="row">
+                                                <div class="col-lg-8">
+                                                    <div class="input-wrapper m-b-20">
+                                                        <label for="rewardsName" class="input-label">Fəxri adın təsviri</label>
+                                                        <input ngModel type="text" formControlName="rewardsName" class="input-control" placeholder="Fəxri adın təsviri">
+                                                        <div class="text-danger" *ngIf="rewardsName.hasError('required') && rewardsName.touched">
+                                                            <div>Fəxri adın təsviri tələb olunur !</div>
+                                                        </div>
+                                                        <div class="text-danger" *ngIf="rewardsName.hasError('maxlength')">
+                                                            <div>Fəxri adın təsviri ən çox 1000 simvol olmalıdır !</div>
+                                                        </div>
+                                                        <div class="text-danger" *ngIf="rewardsName.hasError('minlength')">
+                                                            <div>Fəxri adın təsviri ən az 1 simvoldan ibarət olmalıdır !</div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-4 ">
-                                                    <div class="input-wrapper m-b-20 ">
-                                                        <label class="input-label ">Tarix</label>
-                                                        <input type="text " class="input-control " placeholder="Tarix ">
+                                                <div class="col-lg-4">
+
+                                                    <label class="input-label">Tarix</label>
+                                                    <div class="input-wrapper m-b-20">
+                                                        <mat-form-field appearance="fill">
+                                                            <mat-label class="input-label">DD/MM/YYYY</mat-label>
+                                                            <input ngModel class="input-control" formControlName="rewardsDate" placeholder="Doğum tarixi" matInput [matDatepicker]="picker1">
+                                                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                            <mat-datepicker #picker1></mat-datepicker>
+                                                        </mat-form-field>
+                                                        <div class="text-danger" *ngIf="rewardsDate.hasError('required') && rewardsDate.touched">
+                                                            <div>Doğru tarixi daxil edin</div>
+                                                        </div>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
-                                    <button class="btn btn-fluid btn-transparent ">Əlavə et</button>
+                                    <button class="btn btn-fluid btn-transparent">Əlavə et</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="layout-holder__content__body__form__holder__section ">
-                            <h2 class="layout-holder__content__body__form__holder__section__title ">Şəhidin övladları haqqında məlumat</h2>
-                            <div class="layout-holder__content__body__form__holder__section__area ">
+                        <div class="layout-holder__content__body__form__holder__section">
+                            <h2 class="layout-holder__content__body__form__holder__section__title">Şəhidin övladları haqqında məlumat</h2>
+                            <div class="layout-holder__content__body__form__holder__section__area">
 
-                                <div class="layout-holder__content__body__form__holder__section__area__block ">
-                                    <div class="layout-holder__content__body__form__holder__section__area__block__list ">
-                                        <div class="layout-holder__content__body__form__holder__section__area__block__list__item ">
-                                            <div class="layout-holder__content__body__form__holder__section__area__block__list__item__heading ">
-                                                <h4 class="layout-holder__content__body__form__holder__section__area__block__list__item__heading__title ">
+                                <div class="layout-holder__content__body__form__holder__section__area__block">
+                                    <div class="layout-holder__content__body__form__holder__section__area__block__list">
+                                        <div class="layout-holder__content__body__form__holder__section__area__block__list__item">
+                                            <div class="layout-holder__content__body__form__holder__section__area__block__list__item__heading">
+                                                <h4 class="layout-holder__content__body__form__holder__section__area__block__list__item__heading__title">
                                                     #1</h4>
-                                                <span class="layout-holder__content__body__form__holder__section__area__block__list__item__heading__remove icon-times "></span>
+                                                <span class="layout-holder__content__body__form__holder__section__area__block__list__item__heading__remove icon-times"></span>
                                             </div>
-                                            <div class="row ">
-                                                <div class="col-lg-12 ">
-                                                    <div class="input-wrapper m-b-20 ">
-                                                        <label class="input-label ">Cinsi</label>
-                                                        <div class="layout-holder__content__body__form__holder__section__area ">
-                                                            <div class="radio-group ">
-                                                                <label for="genderChildrenType " class="radio ">
-                                                                    <input name="gender " type="radio "
-                                                                        id="genderChildrenType " value=1>
-                                                                    <span class="radio-control "></span>
-                                                                    <span class="radio-label ">Kişi</span>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="input-wrapper m-b-20">
+                                                        <label class="input-label">Cinsi</label>
+                                                        <div class="layout-holder__content__body__form__holder__section__area">
+                                                            <div class="radio-group">
+                                                                <label for="genderChildrenType" class="radio">
+                                                                    <input name="gender" type="radio"
+                                                                        id="genderChildrenType" value=1>
+                                                                    <span class="radio-control"></span>
+                                                                    <span class="radio-label">Kişi</span>
                                                                 </label>
-                                                                <label for="genderChildrenType2 " class="radio ">
-                                                                    <input name="gender " type="radio "
-                                                                        id="genderChildrenType2 " value=2>
-                                                                    <span class="radio-control "></span>
-                                                                    <span class="radio-label ">Qadın</span>
+                                                                <label for="genderChildrenType2" class="radio">
+                                                                    <input  name="gender" type="radio"
+                                                                        id="genderChildrenType2" value=2>
+                                                                    <span class="radio-control"></span>
+                                                                    <span class="radio-label">Qadın</span>
                                                                 </label>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 ">
-                                                    <div class="input-wrapper m-b-20 ">
-                                                        <label class="input-label ">Adı</label>
-                                                        <input type="text " class="input-control " placeholder="Adı ">
+                                                <div class="col-lg-6">
+                                                    <div class="input-wrapper m-b-20">
+                                                        <label for="childrenName" class="input-label">Adı</label>
+                                                        <input ngModel type="text" formControlName="childrenName" class="input-control" placeholder="Adı">
+                                                        <div class="text-danger" *ngIf="childrenName.hasError('required') && childrenName.touched">
+                                                            <div>Ad daxil edin !</div>
+                                                        </div>
+                                                        <div class="text-danger" *ngIf="childrenName.hasError('maxlength')">
+                                                            <div>Ad ən çox 50 xarakter olmalıdır !</div>
+                                                        </div>
+                                                        <div class="text-danger" *ngIf="childrenName.hasError('minlength')">
+                                                            <div>Ad ən az 2 xarakter olmalıdır !</div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 ">
-                                                    <div class="input-wrapper m-b-20 ">
-                                                        <label class="input-label ">Soyadı</label>
-                                                        <input type="text " class="input-control " placeholder="Soyadı ">
+                                                <div class="col-lg-6">
+                                                    <div class="input-wrapper m-b-20">
+                                                        <label for="childrenSurname" class="input-label">Soyadı</label>
+                                                        <input ngModel type="text" formControlName="childrenSurname" class="input-control" placeholder="Soyadı">
+                                                        <div class="text-danger" *ngIf="childrenSurname.hasError('required') && childrenSurname.touched">
+                                                            <div>Ad daxil edin !</div>
+                                                        </div>
+                                                        <div class="text-danger" *ngIf="childrenSurname.hasError('maxlength')">
+                                                            <div>Ad ən çox 50 xarakter olmalıdır !</div>
+                                                        </div>
+                                                        <div class="text-danger" *ngIf="childrenSurname.hasError('minlength')">
+                                                            <div>Ad ən az 2 xarakter olmalıdır !</div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 ">
-                                                    <div class="input-wrapper m-b-20 ">
-                                                        <label class="input-label ">Fin kod</label>
-                                                        <input type="text " class="input-control " placeholder="Fin kod ">
+                                                <div class="col-lg-6">
+                                                    <div class="input-wrapper m-b-20">
+                                                        <label for="childrenfin" class="input-label">Fin kod</label>
+                                                        <input ngModel type="text" formControlName="childrenfin" class="input-control" placeholder="Fin kod">
+                                                        <div class="text-danger" *ngIf="childrenfin.hasError('maxlength')">
+                                                            <div>Fin kod ən az 7 simvol olmalıdır !</div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 ">
-                                                    <div class="input-wrapper m-b-20 ">
-                                                        <label class="input-label ">Doğum tarixi</label>
-                                                        <input type="text " class="input-control " placeholder="Doğum tarixi ">
+                                                <div class="col-lg-6">
+                                                    <label class="input-label">Doğum tarixi</label>
+                                                    <div class="input-wrapper m-b-20">
+                                                        <mat-form-field appearance="fill">
+                                                            <mat-label class="input-label">DD/MM/YYYY</mat-label>
+                                                            <input ngModel class="input-control" formControlName="childrenbirthday" placeholder="Doğum tarixi" matInput [matDatepicker]="picker2">
+                                                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                                            <mat-datepicker #picker2></mat-datepicker>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="text-danger" *ngIf="childrenbirthday.hasError('required') && childrenbirthday.touched">
+                                                        <div>Doğum tarixini doğru daxil edin</div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-12 ">
+                                                <div class="col-lg-12">
                                                     <div class="input-wrapper m-b-20 ">
-                                                        <label for=" " class="input-label ">Şəxsiyyət vəsiqəsinin şəkili
+                                                        <label for="" class="input-label">Şəxsiyyət vəsiqəsinin şəkili
                                                             (yalnız
                                                             ön tərəf)</label>
-                                                        <div class="fileupload ">
-                                                            <span class="fileupload-placeholder ">Fayl</span>
-                                                            <label for="file " class="fileupload-button btn btn-small btn-primary ">Yüklə<input
-                                                                    id="file " type="file "></label>
+                                                        <div class="fileupload">
+                                                            <span class="fileupload-placeholder">Fayl</span>
+                                                            <label for="file" class="fileupload-button btn btn-small btn-primary">Yüklə<input
+                                                                    id="file" type="file"></label>
                                                         </div>
-                                                        <div class="fileupload-list ">
-                                                            <div class="fileupload-file ">
-                                                                <span class="fileupload-file__remove icon-times "></span>
-                                                                <span class="fileupload-file__name ">photo</span>
+                                                        <div class="fileupload-list">
+                                                            <div class="fileupload-file">
+                                                                <span class="fileupload-file__remove icon-times"></span>
+                                                                <span class="fileupload-file__name">photo</span>
                                                             </div>
 
                                                         </div>
@@ -217,80 +326,89 @@
                                         </div>
 
                                     </div>
-                                    <button class="btn btn-fluid btn-transparent ">Əlavə et</button>
+                                    <button class="btn btn-fluid btn-transparent">Əlavə et</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="layout-holder__content__body__form__holder__section ">
-                            <h2 class="layout-holder__content__body__form__holder__section__title ">Ailə üzvlərinin mülkiyyətində olan mənzil və ya fərdi evi haqqında məlumat</h2>
-                            <div class="layout-holder__content__body__form__holder__section__area ">
-                                <div class="layout-holder__content__body__form__holder__section__area__block ">
-                                    <div class="layout-holder__content__body__form__holder__section__area__block__list ">
-                                        <div class="layout-holder__content__body__form__holder__section__area__block__list__item ">
-                                            <div class="layout-holder__content__body__form__holder__section__area__block__list__item__heading ">
-                                                <h4 class="layout-holder__content__body__form__holder__section__area__block__list__item__heading__title ">
+                        <div class="layout-holder__content__body__form__holder__section">
+                            <h2 class="layout-holder__content__body__form__holder__section__title">Ailə üzvlərinin mülkiyyətində olan mənzil və ya fərdi evi haqqında məlumat</h2>
+                            <div class="layout-holder__content__body__form__holder__section__area">
+                                <div class="layout-holder__content__body__form__holder__section__area__block">
+                                    <div class="layout-holder__content__body__form__holder__section__area__block__list">
+                                        <div class="layout-holder__content__body__form__holder__section__area__block__list__item">
+                                            <div class="layout-holder__content__body__form__holder__section__area__block__list__item__heading">
+                                                <h4 class="layout-holder__content__body__form__holder__section__area__block__list__item__heading__title">
                                                     #1</h4>
-                                                <span class="layout-holder__content__body__form__holder__section__area__block__list__item__heading__remove icon-times "></span>
+                                                <span class="layout-holder__content__body__form__holder__section__area__block__list__item__heading__remove icon-times"></span>
                                             </div>
-                                            <h3 class="layout-holder__content__body__form__holder__section__area__title ">
+                                            <h3 class="layout-holder__content__body__form__holder__section__area__title">
                                                 Mənzil və ya fərdi evin əsas məlumatları</h3>
-                                            <div class="row ">
-                                                <div class="col-lg-12 ">
-                                                    <div class="radio-group m-b-20 ">
-                                                        <label for="hasDocumentYes " class="radio ">
-                                                            <input type="radio " id="hasDocumentYes " name="document "
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="radio-group m-b-20">
+                                                        <label for="hasDocumentYes" class="radio">
+                                                            <input  type="radio" id="hasDocumentYes" name="document"
                                                                 value=true>
-                                                            <span class="radio-control "></span>
-                                                            <span class="radio-label ">Sənədli</span>
+                                                            <span class="radio-control"></span>
+                                                            <span class="radio-label">Sənədli</span>
                                                         </label>
-                                                        <label for="hasDocumentNo " class="radio ">
-                                                            <input type="radio " id="hasDocumentNo " name="document "
+                                                        <label for="hasDocumentNo" class="radio">
+                                                            <input type="radio" id="hasDocumentNo" name="document"
                                                                 value=false>
-                                                            <span class="radio-control "></span>
-                                                            <span class="radio-label ">Sənədsiz</span>
+                                                            <span class="radio-control"></span>
+                                                            <span class="radio-label">Sənədsiz</span>
                                                         </label>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row ">
-                                                <div class="col-lg-4 ">
-                                                    <div class="input-wrapper m-b-20 ">
-                                                        <label class="input-label ">Yaşayan şəxslərin sayı</label>
-                                                        <input type="text " class="input-control " placeholder="Say ">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <div class="input-wrapper m-b-20">
+                                                        <label for="peopleCount" class="input-label">Yaşayan şəxslərin sayı</label>
+                                                        <input ngModel type="number" formControlName="peopleCount" class="input-control" min="1" placeholder=" Say ">
+                                                        <div class="text-danger" *ngIf="peopleCount.hasError( 'required') && peopleCount.touched ">
+                                                            <div>Yaşayan şəxslərin sayını qeyd edin !</div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4 ">
                                                     <div class="input-wrapper m-b-20 ">
-                                                        <label class="input-label ">Ümumi sahəsi (kV)</label>
-                                                        <input type="text " class="input-control " placeholder="Sahə ">
+                                                        <label for="totalArea" class="input-label">Ümumi sahəsi (kV)</label>
+                                                        <input ngModel type="number" formControlName="totalArea" class="input-control " min="1" placeholder="Sahə ">
+                                                        <div class="text-danger" *ngIf="totalArea.hasError( 'required') && totalArea.touched ">
+                                                            <div>Sahəsini qeyd edin !</div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4 ">
                                                     <div class="input-wrapper m-b-20 ">
-                                                        <label class="input-label ">Otaq sayı</label>
-                                                        <input type="text " class="input-control " placeholder="Say ">
+                                                        <label for="roomCount" class="input-label">Otaq sayı</label>
+                                                        <input ngModel type="number" formControlName="roomCount" class="input-control " min="1" placeholder="Say ">
+                                                        <div class="text-danger" *ngIf="roomCount.hasError( 'required') && roomCount.touched ">
+                                                            <div>Otaq sayı qeyd edin !</div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <h3 class="layout-holder__content__body__form__holder__section__area__title ">
                                                 Mənzil və ya fərdi evin şəkilləri
                                             </h3>
-                                            <div class="row ">
-                                                <div class="col-12 ">
+                                            <div class="row">
+                                                <div class="col-12">
                                                     <div class="input-wrapper m-b-20 ">
-                                                        <div class="fileupload ">
-                                                            <span class="fileupload-placeholder ">Fayl</span>
-                                                            <label for="file " class="fileupload-button btn btn-small btn-primary ">Yüklə<input
-                                                                    id="file " multiple type="file "></label>
+                                                        <div class="fileupload">
+                                                            <span class="fileupload-placeholder">Fayl</span>
+                                                            <label for="file" class="fileupload-button btn btn-small btn-primary">Yüklə<input
+                                                                    id="file" multiple type="file"></label>
                                                         </div>
-                                                        <div class="fileupload-list ">
-                                                            <div class="fileupload-file ">
-                                                                <span class="fileupload-file__remove icon-times "></span>
-                                                                <span class="fileupload-file__name ">photo 1</span>
+                                                        <div class="fileupload-list">
+                                                            <div class="fileupload-file">
+                                                                <span class="fileupload-file__remove icon-times"></span>
+                                                                <span class="fileupload-file__name">photo 1</span>
                                                             </div>
-                                                            <div class="fileupload-file ">
-                                                                <span class="fileupload-file__remove icon-times "></span>
-                                                                <span class="fileupload-file__name ">photo 2</span>
+                                                            <div class="fileupload-file">
+                                                                <span class="fileupload-file__remove icon-times"></span>
+                                                                <span class="fileupload-file__name">photo 2</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -307,7 +425,7 @@
 
                     </div>
                     <div class="layout-holder__content__body__form__footer ">
-                        <button type="submit " class="btn btn-fluid btn-primary ">GÖNDƏR</button>
+                        <button type="submit" class="btn btn-fluid btn-primary ">GÖNDƏR</button>
                     </div>
                 </div>
                 <app-footer></app-footer>
